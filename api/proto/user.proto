@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package protobuf;
+option  go_package = "./;protobufpb";
+
+service UserService {
+  // Get a user info based on user's token
+  rpc GetMe(UserGetMeReq) returns (UserGetMeRes);
+}
+
+// REQUEST
+message UserGetMeReq {}
+
+// RESPONSE
+message UserGetMeRes {
+  string id           = 1;
+  string name         = 2;
+  string email        = 3;
+  string phone_code   = 4;
+  string phone_number = 5;
+  string avatar       = 6;
+  string note         = 7;
+  int64  last_login   = 8;
+}

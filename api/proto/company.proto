@@ -1,0 +1,175 @@
+syntax = "proto3";
+
+package protobuf;
+option  go_package = "./;protobufpb";
+
+import "google/protobuf/empty.proto";
+
+service CompanyService {
+  // Add a new owner for a company.
+  rpc AddCEO(CompanyAddCEOReq) returns (google.protobuf.Empty);
+
+  // Add a new company.
+  rpc AddCompany(CompanyAddReq) returns (CompanyAddRes);
+
+  // Update a company profile.
+  rpc UpdateCompany(CompanyUpdateReq) returns (google.protobuf.Empty);
+
+  // Get a company profile by its code.
+  rpc GetCompanyByCode(GetCompanyByCodeReq) returns (GetCompanyByCodeRes);
+
+  // List all companies.
+  rpc ListCompany(CompanyListCompanyReq) returns (CompanyListCompanyRes);
+
+  // Get my profile
+  rpc GetMyProfile(CompanyGetMyProfileReq) returns (CompanyGetMyProfileRes);
+
+  // Get a company profile based on user's token.
+  rpc GetMyCompany(CompanyGetMyCompanyReq) returns (CompanyGetMyCompanyRes);
+
+  // Add a new department.
+  rpc AddDepartment(CompanyAddDepartmentReq) returns (CompanyAddDepartmentRes);
+
+  // Add a new group.
+  rpc AddGroup(CompanyAddGroupReq) returns (CompanyAddGroupRes);
+
+  // List all departments of a company.
+  rpc ListDepartment(CompanyListDepartmentReq) returns (CompanyListDepartmentRes);
+
+  // List all groups of a department.
+  rpc ListGroup(CompanyListGroupReq) returns (CompanyListGroupRes);
+
+  // List all employees of a company.
+  rpc ListEmployee(CompanyListEmployeeReq) returns (CompanyListEmployeeRes);
+}
+
+// TYPE
+enum CompanyRole {
+  COMPANY_ROLE_INVALID = 0;
+  COMPANY_ROLE_CEO     = 1;
+  COMPANY_ROLE_HEAD    = 2;
+  COMPANY_ROLE_LEAD    = 3;
+  COMPANY_ROLE_STAFF   = 4;
+}
+
+message CompanyEmployee {
+  CompanyRole role          = 1;
+  string      id            = 2;
+  string      name          = 3;
+  string      email         = 4;
+  string      phone         = 5;
+  string      avatar        = 6;
+  string      company_id    = 7;
+  string      department_id = 8;
+  string      group_id      = 9;
+}
+
+message CompanyProfile {
+  string id     = 1;
+  string code   = 2;
+  string name   = 3;
+  string slogan = 4;
+  string logo   = 5;
+}
+
+message CompanyDepartment {
+  string id           = 1;
+  string name         = 2;
+  string note         = 3;
+  int32  member_count = 4;
+}
+
+message CompanyGroup {
+  string id           = 1;
+  string name         = 2;
+  string note         = 3;
+  int32  member_count = 4;
+}
+
+// REQUEST
+message CompanyAddReq {
+  string code   = 1;
+  string name   = 2;
+  string slogan = 3;
+  string logo   = 4;
+}
+
+message CompanyAddCEOReq {
+  string employee_id = 1;
+  string company_id  = 2;
+}
+
+message CompanyUpdateReq {
+  string code   = 1;
+  string name   = 2;
+  string slogan = 3;
+  string logo   = 4;
+}
+
+message CompanyGetMyCompanyReq {}
+
+message GetCompanyByCodeReq { string code = 1; }
+
+message CompanyListCompanyReq {}
+
+message CompanyGetMyProfileReq {}
+
+message CompanyAddDepartmentReq {
+  string name = 1;
+  string note = 2;
+}
+
+message CompanyAddGroupReq {
+  string name          = 1;
+  string note          = 2;
+  string department_id = 3;
+}
+
+message CompanyListDepartmentReq { string company_id = 1; }
+
+message CompanyListGroupReq { string department_id = 1; }
+
+message CompanyListEmployeeReq {}
+
+// RESPONSE
+message CompanyAddRes { string id = 1; }
+
+message CompanyAddDepartmentRes { string id = 1; }
+
+message CompanyAddGroupRes { string id = 1; }
+
+message CompanyGetMyCompanyRes {
+  string id     = 1;
+  string code   = 2;
+  string name   = 3;
+  string slogan = 4;
+  string logo   = 5;
+}
+
+message GetCompanyByCodeRes {
+  string id     = 1;
+  string code   = 2;
+  string name   = 3;
+  string slogan = 4;
+  string logo   = 5;
+}
+
+message CompanyGetMyProfileRes {
+  CompanyRole role          = 1;
+  string      id            = 2;
+  string      name          = 3;
+  string      email         = 4;
+  string      phone         = 5;
+  string      avatar        = 6;
+  string      company_id    = 7;
+  string      department_id = 8;
+  string      group_id      = 9;
+}
+
+message CompanyListDepartmentRes { repeated CompanyDepartment result = 1; }
+
+message CompanyListGroupRes { repeated CompanyGroup result = 1; }
+
+message CompanyListEmployeeRes { repeated CompanyEmployee result = 1; }
+
+message CompanyListCompanyRes { repeated CompanyProfile result = 1; }
