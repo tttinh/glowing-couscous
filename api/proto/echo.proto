@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package protobuf;
+option  go_package = "./;protobufpb";
+
+service EchoService { rpc Echo(EchoReq) returns (EchoRes); }
+
+// REQUEST
+message EchoReq { string message = 1; }
+
+// RESPONSE
+message EchoRes { string message = 1; }
